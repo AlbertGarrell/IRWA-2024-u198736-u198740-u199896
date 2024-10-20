@@ -6,7 +6,7 @@ Authors:
 
 # IRWA Project 2024 - Part 1
 
-In the first part of our project, we focused on understanding and processing the dataset of tweets related to the 2021 Farmers Protests (farmers_protest_tweets.json). This involved pre-processing the data, including extracting key information such as the tweet text, date, hashtags, likes, retweets, and URLs. Additionally, we applied several text cleaning techniques to the tweet content and hashtags.
+In the first part of our project, we focused on understanding and processing the dataset of tweets related to the 2021 Farmers Protests (`farmers_protest_tweets.json`). This involved pre-processing the data, including extracting key information such as the tweet text, date, hashtags, likes, retweets, and URLs. Additionally, we applied several text cleaning techniques to the tweet content and hashtags.
 ### Tweet Content Handling
 - Removed URLs
 - Converted text to lowercase
