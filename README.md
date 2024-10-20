@@ -14,6 +14,7 @@ In the first part of our project, we focused on understanding and processing the
 - Tokenized the words
 - Removed stop words
 - Applied stemming to reduce words to their root form
+- Removed the emojis
 
 Hashtags and usernames were handled with care:
 - The `#` symbol was removed, but the words starting with it were retained.
