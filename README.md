@@ -6,8 +6,8 @@ Authors:
 
 # IRWA Project 2024 - Part 1
 
-In the first part of our project, we focused on understanding and processing the dataset of tweets related to the 2021 Farmers Protests. This involved pre-processing the data, including extracting key information such as the tweet text, date, hashtags, likes, retweets, and URLs. Additionally, we applied several text cleaning techniques to the tweet content:
-
+In the first part of our project, we focused on understanding and processing the dataset of tweets related to the 2021 Farmers Protests (farmers_protest_tweets.json). This involved pre-processing the data, including extracting key information such as the tweet text, date, hashtags, likes, retweets, and URLs. Additionally, we applied several text cleaning techniques to the tweet content and hashtags.
+### Tweet Content Handling
 - Removed URLs
 - Converted text to lowercase
 - Removed punctuation and special characters
@@ -20,7 +20,15 @@ Hashtags and usernames were handled with care:
 - The `#` symbol was removed, but the words starting with it were retained.
 - The `@` symbol was removed, but the usernames were kept for potential future analysis.
 
-We also converted the tweet dates to pandas `datetime` objects to enable time-based analysis. Two dictionaries were generated for this project:
+### Hashtag Handling:
+- Hashtags were extracted from the tweet text while keeping the # symbol during extraction.
+- Punctuation (except numbers) was removed from the hashtags.
+- Stop words were removed, and the remaining words were stemmed. Hashtags were processed separately from the tweet text to maintain their importance.
+- After extraction, hashtags were excluded from the tweet content to ensure they were handled independently.
+### Date Conversion:
+We also converted the tweet dates to pandas `datetime` objects to enable time-based analysis. 
+### Dictionaries Generated:
+Two dictionaries were generated for this project:
 - `original_tweets_dict`: Contains unprocessed tweet data (tweet text, date, hashtags, likes, retweets, and URLs).
 - `processed_tweets_dict`: Contains tokenized and stemmed versions of the tweets, along with the processed hashtags. These dictionaries are linked to document IDs and will be used for indexing and classification in future project stages.
 
