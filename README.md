@@ -100,7 +100,7 @@ Make sure the files are correctly loaded, and all necessary dependencies are ins
 In Part 3, we implement and evaluate four ranking methods to retrieve relevant tweets for given queries, 
 considering both term-based and contextual relevance. The four methods tested are:
 
-1. **TF-IDF + Cosine Similarity + BERT**: Combines TF-IDF term relevance with BERT-based hashtag similarity to capture semantic relevance.
+1. **TF-IDF + Cosine Similarity**: Combines TF-IDF term relevance with BERT-based hashtag similarity to capture semantic relevance.
 2. **Our Score + Cosine Similarity**: A custom ranking approach that integrates TF-IDF with popularity metrics (likes, retweets, comments, and recency).
 3. **BM25**: A probabilistic ranking model balancing term frequency saturation and document length.
 4. **Word2Vec + Cosine Similarity**: Uses word embeddings to capture contextual relevance in tweets.
