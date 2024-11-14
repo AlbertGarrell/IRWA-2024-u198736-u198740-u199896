@@ -92,3 +92,38 @@ In Part 2, we extended our search engine's functionality by developing core inde
 - Files: `original_tweets.json`, `processed_tweets.json`, `evaluation_gt`
 
 Make sure the files are correctly loaded, and all necessary dependencies are installed before running the notebook.
+
+---
+
+# IRWA Project 2024 - Part 3
+
+In Part 3, we implement and evaluate four ranking methods to retrieve relevant tweets for given queries, 
+considering both term-based and contextual relevance. The four methods tested are:
+
+1. **TF-IDF + Cosine Similarity + BERT**: Combines TF-IDF term relevance with BERT-based hashtag similarity to capture semantic relevance.
+2. **Our Score + Cosine Similarity**: A custom ranking approach that integrates TF-IDF with popularity metrics (likes, retweets, comments, and recency).
+3. **BM25**: A probabilistic ranking model balancing term frequency saturation and document length.
+4. **Word2Vec + Cosine Similarity**: Uses word embeddings to capture contextual relevance in tweets.
+
+Our GitHub repository contains code and documentation for this part, tagged as `IRWA-2024-part-3`.
+
+### Instructions to run the code:
+
+1. Place the following files in your working directory:
+   - `original_tweets.json` (raw tweet data)
+   - `processed_tweets.json` (tokenized and processed tweet data)
+2. Open the notebook `IRWA_2024_part_3.ipynb` in your preferred environment (Google Colab, Jupyter, etc.).
+3. Update file paths in the notebook as needed to match the location of your files.
+4. Run each cell to:
+   - Load and preprocess the dataset.
+   - Build the inverted index.
+   - Execute each ranking method on specified queries.
+5. The code includes steps to install necessary libraries such as `gensim` (for Word2Vec) and `sentence_transformers` (for BERT embeddings).
+
+### Requirements
+
+- Python 3.x
+- Libraries: `pandas`, `nltk`, `torch`, `transformers` (for BERT), `gensim` (for Word2Vec), `scipy`
+- Files: `original_tweets.json`, `processed_tweets.json`
+
+Ensure all required files are loaded, and necessary dependencies are installed before running the notebook.
