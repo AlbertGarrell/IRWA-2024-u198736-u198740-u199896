@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Modal Example</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Click Tracking -->
+  <script>
+    let clickData = {}; 
+    let startTime = 0; 
+
+    function trackClick(docId, position) {
+      const query = "{{ query }}"; // Pass the query dynamically from the server
+      if (!clickData[query]) {
+        clickData[query] = { docs_clicked: [], pos_clicked: [], dwell_times: [] };
+      }
+      clickData[query].docs_clicked.push(docId);
+      clickData[query].pos_clicked.push(position);
+      startTime = new Date().getTime();
+    }
+
+    function trackClose() {
+      const query = "{{ query }}"; // Pass the query dynamically from the server
+      if (startTime > 0 && clickData[query]) {
+        const dwellTime = Math.round((new Date().getTime() - startTime) / 1000);
+        clickData[query].dwell_times.push(dwellTime);
+        fetch("/log-click", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query, ...clickData[query] }),
+        }).catch(err => console.error("Error logging click:", err));
+        startTime = 0;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  {% block page_title %}{{ page_title }}{% endblock %}
+  {% block content %}
+    <form method="post" action="/search" class="mb-4">
+      <label for="results_per_page">Results per page:</label>
+      <select id="results_per_page" name="results_per_page" onchange="this.form.submit()" class="form-select d-inline w-auto">
+          <option value="10" {% if results_per_page|int == 10 %}selected{% endif %}>10</option>
+          <option value="25" {% if results_per_page|int == 25 %}selected{% endif %}>25</option>
+          <option value="50" {% if results_per_page|int == 50 %}selected{% endif %}>50</option>
+          <option value="75" {% if results_per_page|int == 75 %}selected{% endif %}>75</option>
+      </select>
+      <div class="centered">
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <input class="form-control me-2" name="search-query" type="search" placeholder="Search" value="{{ query }}" aria-label="Search"
+                 autofocus="autofocus">
+          <button class="btn btn-primary" type="submit">Search</button>
+          <input name="upf-irwa-hidden" type="hidden" value="123">
+      </form>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
+
+    Showing <strong>{{results_per_page}}</strong> results ( out of <strong>{{ found_counter }}</strong> )
+    <hr>
+    {% for item, username in results_list|zip(usernames) %}
+      <!-- Tweet Item -->
+      <div class="card mb-4 shadow-sm" style="border-radius: 15px;">
+        <div class="card-body">
+          <div class="d-flex align-items-start">
+            <!-- User profile image -->
+            <img src="https://via.placeholder.com/50" alt="User Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+            
+            <!-- Tweet Content -->
+            <div>
+              <h5 class="card-title mb-1">{{ username }}</h5>
+              <h6 class="card-subtitle text-muted mb-2">@{{ username }} • {{ item.date|format_date }}</h6>
+              <p class="card-text mb-3">
+                {{item.tweet[:100]}}...
+              </p>
+  
+              <!-- Engagement stats -->
+              <div class="d-flex text-muted">
+                <div class="me-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                  </svg> {{item.likes}}
+                </div>
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="grey" class="bi bi-chat-fill ml-3" viewBox="0 0 16 16">
+                    <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+                  </svg> {{item.comment_count}}
+                </div>
+              </div>
+  
+              <!-- Full Tweet button -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                      data-bs-target="#modal-{{ item.id }}" 
+                      onclick="trackClick('{{ item.id }}', {{ loop.index }})">
+                Full Tweet
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="modal-{{ item.id }}" tabindex="-1" aria-labelledby="modal-label-{{ item.id }}" aria-hidden="true" 
+           data-bs-dismiss="modal" onhidden="trackClose()">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-label-{{ item.id }}">@{{ username }} • {{ item.date|format_date }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>{{ item.tweet }}</p>
+              <a href="{{ item.url }}" target="_blank">{{ item.url }}</a>
+            </div>
+            <!-- Engagement stats -->
+            <div class="d-flex text-muted">
+              <div class="me-3 ml-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                </svg> {{item.likes}}
+              </div>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="grey" class="bi bi-chat-fill ml-3" viewBox="0 0 16 16">
+                  <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+                </svg> {{item.comment_count}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+    <!-- Pagination Links -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        {% if page > 1 %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page - 1 }}&results_per_page={{ results_per_page }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) %}
+          <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="?page={{ p }}&results_per_page={{ results_per_page }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+        {% if page < total_pages %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page + 1 }}&results_per_page={{ results_per_page }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endblock %}
+  <!-- Bootstrap JS and Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

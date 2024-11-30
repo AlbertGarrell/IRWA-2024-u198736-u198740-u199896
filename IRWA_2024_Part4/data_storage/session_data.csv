@@ -1,0 +1,5 @@
+event_id,session_id,IP,OS,Browser,Country,City,timestamp_init
+0,09cc50d3-511d-44c5-9dcc-7f8b831ae491,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-11-30 12:06:07
+1,09cc50d3-511d-44c5-9dcc-7f8b831ae491,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-11-30 12:06:48
+2,09cc50d3-511d-44c5-9dcc-7f8b831ae491,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-11-30 12:12:12
+3,09cc50d3-511d-44c5-9dcc-7f8b831ae491,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-11-30 12:13:54
