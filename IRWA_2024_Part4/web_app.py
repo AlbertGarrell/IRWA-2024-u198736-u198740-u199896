@@ -7,13 +7,16 @@ import httpagentparser  # for getting the user agent as json
 import nltk
 from flask import Flask, render_template, session
 from flask import request
+from flask import jsonify
+
 
 from myapp.analytics.analytics_data import AnalyticsData, ClickedDoc
 from myapp.search.load_corpus import load_corpus,load_processed_corpus
 from myapp.search.objects import Document, StatsDocument
 from myapp.search.search_engine import SearchEngine
-from myapp.search.algorithms import create_tfidf,create_index
+from myapp.search.algorithms import create_tfidf,create_index,get_tweet
 from datetime import datetime
+import pandas as pd
 
 # *** for using method to_json in objects ***
 def _default(self, obj):
@@ -95,7 +98,7 @@ def index():
 def search_form_post():
     search_query = request.form['search-query']
     results_per_page = int(request.form['results_per_page'])
-    timestamp = datetime.now()
+
 
     session['last_search_query'] = search_query
 
@@ -104,7 +107,7 @@ def search_form_post():
         session_id = str(uuid.uuid4())
         session['session_id'] = session_id
 
-    analytics_data.save_query_terms(search_query, session_id, timestamp)
+    analytics_data.save_query_terms(search_query, session_id)
 
     results, usernames = search_engine.search(search_query)
     
@@ -116,33 +119,21 @@ def search_form_post():
     return render_template('results.html', results_list=results[:results_per_page], page_title="Results", found_counter=found_count,results_per_page = results_per_page,query = search_query, usernames = usernames[:results_per_page])
 
 
-@app.route('/doc_details', methods=['GET'])
-def doc_details():
-    # getting request parameters:
-    # user = request.args.get('user')
+@app.route('/clicked_doc', methods=['POST'])
+def count_click():
+    query = request.args.get('query')
+    tweet_id = request.args.get('tweet_id')
+    dwell_time = request.args.get('dwell_time')
+    
+    print(f"DocID: {tweet_id}")
+    print(f"Query: {query}")
+    print(f"Dwell_time: {dwell_time}")
 
-    print("doc details session: ")
-    print(session)
+    # save query and tweet id with its dwell time
+    analytics_data.save_click(tweet_id, query, dwell_time=dwell_time)
 
-    res = session["some_var"]
+    return '', 204 # ok status without data
 
-    print("recovered var from session:", res)
-
-    # get the query string parameters from request
-    clicked_doc_id = request.args["id"]
-    p1 = int(request.args["search_id"])  # transform to Integer
-    p2 = int(request.args["param2"])  # transform to Integer
-    print("click in id={}".format(clicked_doc_id))
-
-    # store data in statistics table 1
-    if clicked_doc_id in analytics_data.fact_clicks.keys():
-        analytics_data.fact_clicks[clicked_doc_id] += 1
-    else:
-        analytics_data.fact_clicks[clicked_doc_id] = 1
-
-    print("fact_clicks count for id={} is {}".format(clicked_doc_id, analytics_data.fact_clicks[clicked_doc_id]))
-
-    return render_template('doc_details.html')
 
 
 @app.route('/stats', methods=['GET'])
@@ -153,34 +144,69 @@ def stats():
     """
 
     docs = []
-    # ### Start replace with your code ###
 
-    for doc_id in analytics_data.fact_clicks:
-        row: Document = corpus[int(doc_id)]
-        count = analytics_data.fact_clicks[doc_id]
-        doc = StatsDocument(row.id, row.title, row.description, row.doc_date, row.url, count)
-        docs.append(doc)
+    file_path = "./data_storage/click_logs.csv"
 
-    # simulate sort by ranking
-    docs.sort(key=lambda doc: doc.count, reverse=True)
-    return render_template('stats.html', clicks_data=docs)
-    # ### End replace with your code ###
+    # Read the CSV file into a DataFrame
+    clicks = pd.read_csv(file_path)
+
+    for doc_id in clicks["doc_id"].unique():
+        count = clicks[clicks["doc_id"]==doc_id].shape[0]
+        mean_time = clicks[clicks["doc_id"]==doc_id]["dwell_time"].mean()
+        max_time = clicks[clicks["doc_id"]==doc_id]["dwell_time"].max()
+        min_time = clicks[clicks["doc_id"]==doc_id]["dwell_time"].min()
+        total_queries = len(clicks[clicks["doc_id"]==doc_id]["query"].unique())
+        full = get_tweet(doc_id, search_engine.corpus)
+
+        obj = {
+            "id": doc_id,
+            "count": count,
+            "mean_time": mean_time,
+            "max_time": max_time,
+            "min_time":  min_time,
+            "total_queries": total_queries,
+            "item": full
+        }
+
+        docs.append(obj)
+
+    docs = sorted(docs, key=lambda x: x['count'], reverse=True)
+    return render_template('stats.html',clicks_data = docs)
+    
 
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
-    visited_docs = []
-    print(analytics_data.fact_clicks.keys())
-    for doc_id in analytics_data.fact_clicks.keys():
-        d: Document = corpus[int(doc_id)]
-        doc = ClickedDoc(doc_id, d.description, analytics_data.fact_clicks[doc_id])
-        visited_docs.append(doc)
+    docs = []
 
-    # simulate sort by ranking
-    visited_docs.sort(key=lambda doc: doc.counter, reverse=True)
+    file_path = "./data_storage/click_logs.csv"
 
-    for doc in visited_docs: print(doc)
-    return render_template('dashboard.html', visited_docs=visited_docs)
+    # Read the CSV file into a DataFrame
+    clicks = pd.read_csv(file_path)
+
+    for doc_id in clicks["doc_id"].unique():
+        count = clicks[clicks["doc_id"]==doc_id].shape[0]
+        mean_time = clicks[clicks["doc_id"]==doc_id]["dwell_time"].mean()
+        max_time = clicks[clicks["doc_id"]==doc_id]["dwell_time"].max()
+        min_time = clicks[clicks["doc_id"]==doc_id]["dwell_time"].min()
+        total_queries = len(clicks[clicks["doc_id"]==doc_id]["query"].unique())
+        full = get_tweet(doc_id, search_engine.corpus)
+
+        obj = {
+            "id": doc_id,
+            "count": count,
+            "mean_time": mean_time,
+            "max_time": max_time,
+            "min_time":  min_time,
+            "total_queries": total_queries,
+            
+        }
+
+        docs.append(obj)
+
+    docs = sorted(docs, key=lambda x: x['count'], reverse=True)
+
+    return render_template('dashboard.html', visited_docs=docs)
 
 
 @app.route('/sentiment')

@@ -20,7 +20,7 @@ class SearchEngine:
         self.process()
 
     def search(self, search_query):
-        print("Search query:", search_query)
+        #print("Search query:", search_query)
         results = search_in_corpus(search_query,self.corpus,self.index,self.tf,self.idf,self.newest_date)
         final_result = []
         for id in results:

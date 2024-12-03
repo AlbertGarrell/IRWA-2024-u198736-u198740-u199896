@@ -25,7 +25,7 @@
     <script>
         // 'visited_docs' is the data coming from Python code.
         // load the python list in the JS variable 'visits_list':
-        const visits_list = {{ visited_docs | tojson | safe }};
+        const visits_list = {{ visited_docs | tojson | safe}};
         console.log("visited docs: ")
         console.log(visits_list)
     </script>
@@ -36,8 +36,8 @@
 
     <script>
         // use JS map function top get just the tweet ids as labels
-        const visitsLabels = visits_list.map(a => "id: " + a.doc_id);
-        const visitsData = visits_list.map(a => a.counter);
+        const visitsLabels = visits_list.map(a => "id: " + a.id);
+        const visitsData = visits_list.map(a => a.count);
         const chartData1 = {
             labels: visitsLabels,
             datasets: [{
@@ -72,8 +72,8 @@
     {% for doc in visited_docs %}
         <div class="pb-3">
             <div class="">
-                <span class="text-dark"> ({{ doc.counter }} visits) </span> — id: {{ doc.doc_id }}
-                — {{ doc.description }}
+                <span class="text-dark"> ({{ doc.count }} visits) </span> — id: {{ doc.id }}
+            
             </div>
         </div>
         <hr>

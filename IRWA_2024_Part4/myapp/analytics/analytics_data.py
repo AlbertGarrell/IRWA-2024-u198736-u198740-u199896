@@ -21,49 +21,98 @@ class AnalyticsData:
         self.http_logs = []
 
 
-    def save_query_terms(self, terms: str, session_id: str, timestamp: datetime):
+    def save_query_terms(self, terms: str, session_id: str):
         """
         Save search query and related details.
         """
         num_terms = len(terms.split())
-        self.search_queries.append({
-            "query": terms,
-            "timestamp": timestamp,
-            "session_id": session_id,
-            "num_terms": num_terms
-        })
+        
         print(f"Saved query: {terms}")
-        print(f"Saved query timestamp: {timestamp}")
-        print(f"Saved query session id: {session_id}")
-        print(f"Saved query num terms: {num_terms}")
+
+        file_path = "./data_storage/search_queries.csv"
+        # Check if the file exists, and read the last event_id if it does
+        if os.path.exists(file_path):
+            with open(file_path, mode='r', newline='', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                rows = list(reader)
+                # If there are rows, get the last event_id
+                if rows:
+                    last_event_id = int(rows[-1][0])  # First column contains event_id
+                else:
+                    last_event_id = -1
+        else:
+            last_event_id = -1
+
+        # Increment event_id
+        event_id = last_event_id + 1
+
+        # Prepare data to write into the CSV
+        row = [
+            event_id,
+            terms,
+            session_id,
+            num_terms,
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        ]
+
+        # Write the data to the CSV in append mode
+        with open(file_path, mode='a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            # If the file is empty, write the header
+            if last_event_id == -1:
+                writer.writerow(["event_id","query","session_id","num_terms", "timestamp"])
+            # Append the new row
+            writer.writerow(row)
+
+
     
-    def save_click(self, doc_id: int, query: str, rank: int, session_id: str, dwell_time=None):
+    def save_click(self, doc_id: int, query: str, dwell_time=None):
         """
         Save a click action and its metadata.
         """
-        if doc_id in self.fact_clicks:
-            self.fact_clicks[doc_id] += 1
+        file_path = "./data_storage/click_logs.csv"
+        # Check if the file exists, and read the last event_id if it does
+        if os.path.exists(file_path):
+            with open(file_path, mode='r', newline='', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                rows = list(reader)
+                # If there are rows, get the last event_id
+                if rows:
+                    last_event_id = int(rows[-1][0])  # First column contains event_id
+                else:
+                    last_event_id = -1
         else:
-            self.fact_clicks[doc_id] = 1
+            last_event_id = -1
 
-        self.query_results_clicks.append({
-            "query": query,
-            "rank": rank,
-            "doc_id": doc_id,
-            "session_id": session_id,
-            "dwell_time": dwell_time
-        })
-        print(f"Click recorded for doc_id: {doc_id}, query: {query}, rank: {rank}")
+        # Increment event_id
+        event_id = last_event_id + 1
+
+        # Prepare data to write into the CSV
+        row = [
+            event_id,
+            query,
+            doc_id,
+            dwell_time
+        ]
+
+        # Write the data to the CSV in append mode
+        with open(file_path, mode='a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            # If the file is empty, write the header
+            if last_event_id == -1:
+                writer.writerow(["event_id","query", "doc_id", "dwell_time"])
+            # Append the new row
+            writer.writerow(row)
 
     def save_session_data(self, session_id: str, user_agent: dict, ip_address: str, timestamp: datetime):
         """
         Save session data, including user context.
         """
         #Change the ip for the real one
-        ip_adress_false = '193.30.10.87'
-        country, city = get_location(ip_adress_false)
+        #ip_adress_false = '193.30.10.87'
+        #country, city = get_location(ip_adress_false)
 
-        #country, city = get_location(ip_address)
+        country, city = get_location(ip_address)
 
         agent = httpagentparser.detect(user_agent)  
 

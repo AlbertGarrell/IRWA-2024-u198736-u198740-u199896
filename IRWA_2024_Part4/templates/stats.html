@@ -7,9 +7,67 @@
     {% for doc in clicks_data %}
         <div class="pb-3">
             <div class="">
-                <span class="text-dark"> ({{ doc.count }} visits) </span> — id: {{ doc.id }} — {{ doc.description }}
+                <span class="text-dark">
+                    ({{ doc.count }} total visits) 
+                </span> 
+                — ID: {{ doc.id }} 
+                <div class="container mt-2 mb-4">
+                    <!-- Full Tweet button -->
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" 
+                      data-bs-target="#modal{{ doc.id }}">
+                      See full tweet
+                    </button>
+                </div>
+            </div>
+            <div class="pl-3">
+                <ul>
+                    <li><strong>Mean Time Spend in the Tweet:</strong> {{ doc.mean_time|round(2) }} seconds</li>
+                    <li><strong>Max Time Spend in the Tweet:</strong> {{ doc.max_time|round(2) }} seconds</li>
+                    <li><strong>Min Time Spend in the Tweet:</strong> {{ doc.min_time|round(2) }} seconds</li>
+                    <li><strong>Total Queries where the Tweet was found:</strong> {{ doc.total_queries }} queries</li>
+                </ul>
             </div>
         </div>
         <hr>
+
+
+        <div class="modal fade" id="modal{{ doc.id }}" tabindex="-1" aria-labelledby="ModalLabel{{ doc.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                
+                <div class="modal-body">
+                  {{doc.item.tweet}}
+                </div>
+                <div class="modal-body">
+                  <a href="{{doc.item.url}}" target="_blank">{{doc.item.url}}</a>
+                </div>
+                <!-- Engagement stats -->
+                <div class="d-flex text-muted">
+                  <div class="me-3 ml-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                          <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                        </svg> {{doc.item.likes}}
+                  </div>
+                  <div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="grey" class="bi bi-chat-fill ml-3" viewBox="0 0 16 16">
+                          <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+                        </svg> {{doc.item.comment_count}}
+                  </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="modal{{ doc.id }}" tabindex="-1" aria-labelledby="ModalLabel{{ doc.id }}" aria-hidden="true" 
+                  data-bs-dismiss="modal">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
     {% endfor %}
+    <!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

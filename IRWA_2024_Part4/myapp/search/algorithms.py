@@ -298,4 +298,6 @@ def process_date(results):
         item.date = datetime.fromisoformat(item.date).strftime('%Y-%m-%d')
     return results
 
+def get_tweet(doc_id,corpus):
+    return corpus[doc_id]
 
