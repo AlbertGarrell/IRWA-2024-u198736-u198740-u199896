@@ -9,16 +9,38 @@ event_id,session_id,IP,OS,Browser,Country,City,timestamp_init
 7,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 16:26:02
 8,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 16:26:53
 9,151bf204-a5ff-4cab-a60f-14f0b92b88bd,10.80.136.213,Mac OS,Safari,Spain,Vacarisses,2024-12-03 16:29:13
-10,151bf204-a5ff-4cab-a60f-14f0b92b88bd,10.80.136.213,Mac OS,Safari,,,2024-12-03 16:30:24
-11,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-03 17:05:26
-12,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-03 19:22:07
-13,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-03 19:27:46
-14,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-03 19:29:44
-15,e877167e-5a8a-43dc-a4b4-72d526d9afc6,127.0.0.1,Mac OS,Chrome,,,2024-12-03 19:41:58
-16,e877167e-5a8a-43dc-a4b4-72d526d9afc6,127.0.0.1,Mac OS,Chrome,,,2024-12-04 00:40:43
-17,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 00:46:14
-18,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 00:58:58
-19,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 01:01:36
-20,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 01:01:36
-21,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,,,2024-12-04 01:11:59
-22,d20649a6-42b8-4883-8c54-b257fb6cef26,192.168.1.117,iOS,Safari,,,2024-12-04 01:19:35
+10,151bf204-a5ff-4cab-a60f-14f0b92b88bd,10.80.136.213,Mac OS,Safari,Spain,Vacarisses,2024-12-03 16:30:24
+11,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 17:05:26
+12,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 19:22:07
+13,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 19:27:46
+14,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 19:29:44
+15,e877167e-5a8a-43dc-a4b4-72d526d9afc6,127.0.0.1,Mac OS,Chrome,Spain,Vacarisses,2024-12-03 19:41:58
+16,e877167e-5a8a-43dc-a4b4-72d526d9afc6,127.0.0.1,Mac OS,Chrome,Spain,Vacarisses,2024-12-04 00:40:43
+17,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-04 00:46:14
+18,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-04 00:58:58
+19,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-04 01:01:36
+20,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-04 01:01:36
+21,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Vacarisses,2024-12-04 01:11:59
+22,d20649a6-42b8-4883-8c54-b257fb6cef26,192.168.1.117,iOS,Safari,Spain,Vacarisses,2024-12-04 01:19:35
+23,335a9391-a2a8-4e69-b30f-a82ca5cd300d,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-04 16:02:02
+24,335a9391-a2a8-4e69-b30f-a82ca5cd300d,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-04 16:02:07
+25,335a9391-a2a8-4e69-b30f-a82ca5cd300d,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-04 16:03:43
+26,58f522b0-d6db-4741-b678-c0e2a270ceeb,192.168.1.144,iOS,Safari,Spain,Vacarisses,2024-12-04 16:05:21
+27,84d90af6-55a8-448f-b32a-11b8d4d5d0b7,192.168.1.57,Mac OS,Safari,Spain,Vacarisses,2024-12-04 16:07:06
+28,335a9391-a2a8-4e69-b30f-a82ca5cd300d,127.0.0.1,Mac OS,Safari,Spain,Santa Maria de Palautordera,2024-12-04 16:09:27
+29,335a9391-a2a8-4e69-b30f-a82ca5cd300d,127.0.0.1,Mac OS,Safari,Spain,Santa Maria de Palautordera,2024-12-04 16:22:35
+30,335a9391-a2a8-4e69-b30f-a82ca5cd300d,127.0.0.1,Mac OS,Safari,Spain,Santa Maria de Palautordera,2024-12-04 16:27:46
+31,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:42:34
+32,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:46:10
+33,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:47:58
+34,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:48:27
+35,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:48:44
+36,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:49:34
+37,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:49:46
+38,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:50:22
+39,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:50:56
+40,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:51:11
+41,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:51:27
+42,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:51:51
+43,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:51:58
+44,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:52:28

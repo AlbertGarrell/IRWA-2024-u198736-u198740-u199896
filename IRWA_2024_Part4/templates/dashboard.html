@@ -2,7 +2,6 @@
 {% block page_title %}{{ page_title }}{% endblock %}
 
 {% block header %}
-    <!-- Next tag loads Charts.js https://www.chartjs.org/docs/latest/ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js"
             integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -10,39 +9,21 @@
 
 {% block content %}
 
-    <!--
-    Examples of what to show in Dashboard:
+<button class="btn btn-warning mb-5" onclick="window.history.back()">Go Back</button>
 
-    - Ranking of visited documents (from results page)
-    - Visitor's preferred browsers
-    - Visitor's city (from IP)
-    - preferred queries ranking
-    - preferred terms
-    - etc.
-
-    -->
-
-    <script>
-        // 'visited_docs' is the data coming from Python code.
-        // load the python list in the JS variable 'visits_list':
-        const visits_list = {{ visited_docs | tojson | safe}};
-        console.log("visited docs: ")
-        console.log(visits_list)
-    </script>
 
     <h5>Ranking of Visited Documents</h5>
     <canvas id="dailyVisits" width="400" height="400"></canvas>
-
+    <p class="mt-5">As we can see in the above line chart, documents are shown in descending order showing its number of visits. In that way, document with id 5490 is the most viewed one with 4 total visits (if the document is visited again, then it will be updated).</p>
 
     <script>
-        // use JS map function top get just the tweet ids as labels
+        const visits_list = {{ visited_docs | tojson | safe}};
         const visitsLabels = visits_list.map(a => "id: " + a.id);
         const visitsData = visits_list.map(a => a.count);
         const chartData1 = {
             labels: visitsLabels,
             datasets: [{
                 label: 'Visits count',
-                // data: [65, 59, 80, 81, 56, 55, 40],
                 data: visitsData,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -69,15 +50,13 @@
 
 
 
-    <!-- New Section for Browser Distribution -->
     <h5 class="mt-5">Browser Distribution</h5>
     <canvas id="browserChart" width="400" height="400"></canvas>
+    <p class="mt-5">The most used browser by our users is Safari, followed by Chrome. This is related to what we are showing in the pie chart of the OS below. An spoiler, all users have Apple devices!</p>
 
     <script>
-        // 'browsers' is the data coming from Python code.
         const browserData = {{ browsers | tojson | safe }};
         
-        // Prepare data for the pie chart
         const browserLabels = browserData.map(b => b.browser);
         const browserCounts = browserData.map(b => b.count);
         const pieColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
@@ -106,44 +85,253 @@
         });
     </script>
 
-    <!-- New Section for OS Distribution -->
-    <h5 class="mt-5">OS Distribution</h5>
-    <canvas id="osChart" width="400" height="400"></canvas>
+
+
+<h5 class="mt-5">User's Location</h5>
+<canvas id="citiesBarChart" width="400" height="400"></canvas>
+<p class="mt-5">Poeple is visiting the webpage from Vacarisses and Santa Maria de Palautordera. All other users have visited the webpage using a private ip, so that we are not able to know the place they are connecting from!</p>
+
+<script>
+    const citiesData = {{ cities | tojson | safe }};
+    console.log('Cities Data:', citiesData);
+
+    const cityLabels = citiesData.map(b => b.city);
+    const cityCounts = citiesData.map(b => b.count);
+
+    const barChartData = {
+        labels: cityLabels,
+        datasets: [{
+            label: 'City Counts',
+            data: cityCounts,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+        }]
+    };
+
+    const citiesCtx = document.getElementById('citiesBarChart').getContext('2d');
+    new Chart(citiesCtx, {
+        type: 'bar',
+        data: barChartData,
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<h5 class="mt-5">OS Distribution</h5>
+<canvas id="osChart" width="400" height="400"></canvas>
+<p class="mt-5">As we have told above, all our users connected from an Apple device. That is, they use Macbook and Iphone (iOS). </p>
+
+<script>
+    const osData = {{ op_systems | tojson | safe }};
+    
+
+    const osLabels = osData.map(b => b.os);
+    const osCounts = osData.map(b => b.count);
+    const ospieColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+
+    const osChartData = {
+        labels: osLabels,
+        datasets: [{
+            data: osCounts,
+            backgroundColor: ospieColors,
+            hoverOffset: 4
+        }]
+    };
+
+    const osCtx = document.getElementById('osChart').getContext('2d');
+    new Chart(osCtx, {
+        type: 'pie',
+        data: osChartData,
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+            },
+        }
+    });
+</script>
+
+<h5 class="mt-5">Web Interactions</h5>
+<canvas id="line" width="400" height="400"></canvas>
+<p class="mt-5">The above line chart is the most interesant chart we are showing. It displays the total number of visits per hour of the day, so we can check the traffic of our webpage. As we can see, the search engine page is visited most during the afternoon, from 15 to 19. It's also visited during the morning, but with less frequency. That is, our users seem to work during the morning (or maybe they are studying for their exams :))</p>
+
+<script>
+    const timestp = {{ timestamps | tojson | safe }};
+
+const eventsPerHour = timestp.reduce((acc, event) => {
+  const hour = new Date(event.timestamp_init).getHours(); 
+  acc[hour] = (acc[hour] || 0) + 1; 
+  return acc;
+}, {});
+
+for (let i = 0; i < 24; i++) {
+  if (!(i in eventsPerHour)) {
+    eventsPerHour[i] = 0; 
+  }
+}
+
+const labels = Array.from({ length: 24 }, (_, i) => i); 
+const data = labels.map(hour => eventsPerHour[hour]); 
+
+const lineChartData = {
+  labels: labels,
+  datasets: [{
+    label: 'Webpage Activity',
+    data: data,
+    fill: false,
+    borderColor: 'rgba(75, 192, 192, 1)',
+    tension: 0.1
+  }]
+};
+
+const line = document.getElementById('line').getContext('2d');
+
+new Chart(line, {
+  type: 'line',
+  data: lineChartData,
+  options: {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Hour of the Day'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Number of Visits'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true
+      }
+    }
+  }
+});
+
+</script>
+
+
+<h5 class="mt-5">Preferred Queries Ranking</h5>
+<p>Hover over the bubbles!</p>
+<canvas id="queriesBubbleChart" width="400" height="400"></canvas>
+<p class="mt-5">To show the most used queries we have displayed a bubble chart! That is, if a query is searched more, then its representation has a bigger radius! When hovering the bubbles, we can see the query itself and its frequency. We can say that 'protests in india 2021' is the most frequent query across all users! </p>
+
+<script>
+function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    const a = (Math.random() * 0.5 + 0.5).toFixed(2); 
+    return `rgba(${r}, ${g}, ${b}, ${a})`; 
+}
+    const queriesData = {{ search_queries | tojson | safe }};
+    
+    const bubbleData = queriesData.map((q, index) => ({
+        x: Math.random() * 100, 
+        y: Math.random() * 100,            
+        r: q.count * 20,         
+        idx: index + 1,           
+        idy: q.count
+        
+    }));
+
+    const bubbleChartData = {
+        datasets: [{
+            label: 'Query Ranking',
+            data: bubbleData,
+            backgroundColor: getRandomColor(),
+            borderColor: '#36A2EB',
+            borderWidth: 1
+        }]
+    };
+
+    const ctxx = document.getElementById('queriesBubbleChart').getContext('2d');
+    new Chart(ctxx, {
+        type: 'bubble',
+        data: bubbleChartData,
+        options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const item = context.raw;
+                            return `Query: ${queriesData[item.idx - 1].query}\nCount: ${item.idy}`;
+                        }
+                    }
+                },
+                legend: { display: false }
+            },
+            responsive: true,
+            scales: {
+                x: {
+                    display: false
+                },
+                y: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+
+
+<h5>Dwell Time per document</h5>
+    <canvas id="dwelltime" width="400" height="400"></canvas>
+<p>Last but not least, we can see the mean dwell time per document (in seconds). That is, document 5490, which is the most clicked document too (showed in the first line chart), it has the higher dwell mean time, with a total of 27 second.  </p>
 
     <script>
-        // 'browsers' is the data coming from Python code.
-        const osData = {{ op_systems | tojson | safe }};
         
+        
+        const dwell_visitsData = visits_list.map(a => a.mean_time);
+        const sortedVisitsDataDescending = dwell_visitsData.sort((a, b) => b - a);
 
-        // Prepare data for the pie chart
-        const osLabels = osData.map(b => b.os);
-        const osCounts = osData.map(b => b.count);
-        console.log(osCounts)
-        const ospieColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
-
-        const osChartData = {
-            labels: osLabels,
+        const dwell_chart = {
+            labels: visitsLabels,
             datasets: [{
-                data: osCounts,
-                backgroundColor: ospieColors,
-                hoverOffset: 4
+                label: 'Dwell_time [seconds]',
+                data: sortedVisitsDataDescending,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: getRandomColor(),
+                tension: 0.1
             }]
         };
 
-        const osCtx = document.getElementById('osChart').getContext('2d');
-        new Chart(osCtx, {
-            type: 'pie',
-            data: osChartData,
+        const dwell = document.getElementById('dwelltime').getContext('2d');
+
+        const dwellChart = new Chart(dwell, {
+            type: 'bar',
+            data: dwell_chart,
             options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                    },
-                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
         });
+
     </script>
+
+
+
 
 
 {% endblock %}

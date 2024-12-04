@@ -15,6 +15,9 @@
 <body>
 {% block page_title %}{{ page_title }}{% endblock %}
 {% block content %}
+
+<button class="btn btn-warning mb-5" onclick="window.history.back()">Go Back</button>
+
     <form method="post" action="/search" class="mb-4">
         <label for="results_per_page">Results per page:</label>
         <select id="results_per_page" name="results_per_page" onchange="this.form.submit()" class="form-select d-inline w-auto">
@@ -166,7 +169,6 @@
         .catch(error => console.error('Error:', error));
     }
 
-    // Attach event listeners to all modals
     document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('show.bs.modal', () => startTimer());
         modal.addEventListener('hide.bs.modal', () => {

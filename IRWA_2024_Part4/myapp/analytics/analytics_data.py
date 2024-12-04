@@ -108,11 +108,9 @@ class AnalyticsData:
         """
         Save session data, including user context.
         """
-        #Change the ip for the real one
-        #ip_adress_false = '193.30.10.87'
-        #country, city = get_location(ip_adress_false)
+        ip_adress_false = '95.23.82.164'
+        country, city = get_location(ip_adress_false)
 
-        country, city = get_location(ip_address)
 
         agent = httpagentparser.detect(user_agent)  
 

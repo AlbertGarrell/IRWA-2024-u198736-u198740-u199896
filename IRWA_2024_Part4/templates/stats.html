@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block page_title %}{{ page_title }}{% endblock %}
 {% block content %}
+
+<button class="btn btn-warning mb-5" onclick="window.history.back()">Go Back</button>
+
     <h2>Quick Stats</h2>
     <h4>Clicked docs:</h4>
 
@@ -56,7 +59,6 @@
               </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                  <!-- Modal -->
                   <div class="modal fade" id="modal{{ doc.id }}" tabindex="-1" aria-labelledby="ModalLabel{{ doc.id }}" aria-hidden="true" 
                   data-bs-dismiss="modal">
                   

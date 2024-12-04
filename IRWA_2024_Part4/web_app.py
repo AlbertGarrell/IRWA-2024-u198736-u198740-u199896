@@ -230,9 +230,39 @@ def dashboard():
         }
         op_systems.append(obj)
 
+    cities = []
+
+    for city in sessions["City"].unique():
+        obj = {
+            "city": city,
+            "count": sessions[sessions["City"]==city].shape[0]
+        }
+        cities.append(obj)
+    print(cities)
+    timestamps = []
+    for time in sessions["timestamp_init"].unique():
+        obj = {
+            "timestamp_init": time,
+        }
+        timestamps.append(obj)
     # -----------------------------------------------
 
-    return render_template('dashboard.html', visited_docs=docs, browsers=browser_data,op_systems = op_systems)
+    # search queries -----------------------------
+    search_queries = []
+
+    file_path = "./data_storage/search_queries.csv"
+    # Read the CSV file into a DataFrame
+    queries = pd.read_csv(file_path)
+
+    for query in queries["query"].unique():
+        obj = {
+            "query": query,
+            "count": queries[queries["query"]==query].shape[0]
+        }
+        search_queries.append(obj)
+
+
+    return render_template('dashboard.html', visited_docs=docs, browsers=browser_data,op_systems = op_systems, cities=cities, search_queries=search_queries,timestamps=timestamps)
 
 
 @app.route('/sentiment')
