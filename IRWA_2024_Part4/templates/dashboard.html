@@ -67,98 +67,83 @@
 
     </script>
 
-    <hr>
-    <h5>Print Python data for verification with graph above...</h5>
-    {% for doc in visited_docs %}
-        <div class="pb-3">
-            <div class="">
-                <span class="text-dark"> ({{ doc.count }} visits) </span> — id: {{ doc.id }}
-            
-            </div>
-        </div>
-        <hr>
-    {% endfor %}
 
 
+    <!-- New Section for Browser Distribution -->
+    <h5 class="mt-5">Browser Distribution</h5>
+    <canvas id="browserChart" width="400" height="400"></canvas>
 
     <script>
-        // another example
-        const data2 = {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        // 'browsers' is the data coming from Python code.
+        const browserData = {{ browsers | tojson | safe }};
+        
+        // Prepare data for the pie chart
+        const browserLabels = browserData.map(b => b.browser);
+        const browserCounts = browserData.map(b => b.count);
+        const pieColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+
+        const browserChartData = {
+            labels: browserLabels,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
+                data: browserCounts,
+                backgroundColor: pieColors,
+                hoverOffset: 4
             }]
         };
 
-        // This will render the chart
-        new Chart(document.getElementById("dailyVisits2"), {
-            type: 'bar',
-            data: {
-                labels: myLabels,
-                datasets: [{
-                    data: [1, 2, 3],
-                    label: "Alberta",
-                    borderColor: "#3e95cd",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "BC",
-                    borderColor: "#8e5ea2",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "Manitoba",
-                    borderColor: "#3cba9f",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "New Brunswick",
-                    borderColor: "#e8c3b9",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "NL",
-                    borderColor: "#c45850",
-                    fill: false
-                }
-                ]
-            },
+        const browserCtx = document.getElementById('browserChart').getContext('2d');
+        new Chart(browserCtx, {
+            type: 'pie',
+            data: browserChartData,
             options: {
-                title: {
-                    display: true,
-                    text: 'Some title'
-                },
-                hover: {
-                    mode: 'index',
-                    intersect: true
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
                 },
             }
         });
-
-
     </script>
 
+    <!-- New Section for OS Distribution -->
+    <h5 class="mt-5">OS Distribution</h5>
+    <canvas id="osChart" width="400" height="400"></canvas>
 
-    <canvas id="dailyVisits2" width="400" height="400"></canvas>
+    <script>
+        // 'browsers' is the data coming from Python code.
+        const osData = {{ op_systems | tojson | safe }};
+        
 
+        // Prepare data for the pie chart
+        const osLabels = osData.map(b => b.os);
+        const osCounts = osData.map(b => b.count);
+        console.log(osCounts)
+        const ospieColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+
+        const osChartData = {
+            labels: osLabels,
+            datasets: [{
+                data: osCounts,
+                backgroundColor: ospieColors,
+                hoverOffset: 4
+            }]
+        };
+
+        const osCtx = document.getElementById('osChart').getContext('2d');
+        new Chart(osCtx, {
+            type: 'pie',
+            data: osChartData,
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+            }
+        });
+    </script>
 
 
 {% endblock %}

@@ -15,3 +15,5 @@ event_id,query,doc_id,dwell_time
 13,protests in india 2020,doc_5490,12
 14,protests in india 2021,doc_7815,24
 15,protests in india 2021,doc_7815,4
+16,farmers in india,doc_45142,3
+17,farmers in india,doc_9450,2

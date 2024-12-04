@@ -57,7 +57,8 @@ def log_http_response(response):
     """
     Logs HTTP request and response metadata after the response is processed.
     """
-    ip = request.remote_addr
+    #ip = request.remote_addr
+    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
     http_method = request.method
     requested_url = request.url
     http_version = request.environ.get('SERVER_PROTOCOL', 'HTTP/1.1')
@@ -177,13 +178,12 @@ def stats():
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
+
+    # get clicks per document ---------------------
     docs = []
-
     file_path = "./data_storage/click_logs.csv"
-
     # Read the CSV file into a DataFrame
     clicks = pd.read_csv(file_path)
-
     for doc_id in clicks["doc_id"].unique():
         count = clicks[clicks["doc_id"]==doc_id].shape[0]
         mean_time = clicks[clicks["doc_id"]==doc_id]["dwell_time"].mean()
@@ -205,8 +205,34 @@ def dashboard():
         docs.append(obj)
 
     docs = sorted(docs, key=lambda x: x['count'], reverse=True)
+    # -----------------------------------------------
 
-    return render_template('dashboard.html', visited_docs=docs)
+    # get user's dashboard data ---------------------
+
+    browser_data = []
+
+    file_path = "./data_storage/session_data.csv"
+    # Read the CSV file into a DataFrame
+    sessions = pd.read_csv(file_path)
+
+    for browser in sessions["Browser"].unique():
+        obj = {
+            "browser": browser,
+            "count": sessions[sessions["Browser"]==browser].shape[0]
+        }
+        browser_data.append(obj)
+    
+    op_systems = []
+    for os in sessions["OS"].unique():
+        obj = {
+            "os": os,
+            "count": sessions[sessions["OS"]==os].shape[0]
+        }
+        op_systems.append(obj)
+
+    # -----------------------------------------------
+
+    return render_template('dashboard.html', visited_docs=docs, browsers=browser_data,op_systems = op_systems)
 
 
 @app.route('/sentiment')

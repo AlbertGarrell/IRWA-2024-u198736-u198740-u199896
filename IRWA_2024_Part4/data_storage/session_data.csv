@@ -5,7 +5,7 @@ event_id,session_id,IP,OS,Browser,Country,City,timestamp_init
 3,09cc50d3-511d-44c5-9dcc-7f8b831ae491,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-11-30 12:13:54
 4,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-02 11:34:10
 5,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-02 12:01:23
-6,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 15:24:537,
+6,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 15:24:537
 7,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 16:26:02
 8,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,Spain,Vacarisses,2024-12-03 16:26:53
 9,151bf204-a5ff-4cab-a60f-14f0b92b88bd,10.80.136.213,Mac OS,Safari,Spain,Vacarisses,2024-12-03 16:29:13
@@ -15,3 +15,10 @@ event_id,session_id,IP,OS,Browser,Country,City,timestamp_init
 13,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-03 19:27:46
 14,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-03 19:29:44
 15,e877167e-5a8a-43dc-a4b4-72d526d9afc6,127.0.0.1,Mac OS,Chrome,,,2024-12-03 19:41:58
+16,e877167e-5a8a-43dc-a4b4-72d526d9afc6,127.0.0.1,Mac OS,Chrome,,,2024-12-04 00:40:43
+17,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 00:46:14
+18,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 00:58:58
+19,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 01:01:36
+20,644da5ec-1a01-4f54-99a9-db379aa94e21,127.0.0.1,Mac OS,Safari,,,2024-12-04 01:01:36
+21,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,,,2024-12-04 01:11:59
+22,d20649a6-42b8-4883-8c54-b257fb6cef26,192.168.1.117,iOS,Safari,,,2024-12-04 01:19:35
