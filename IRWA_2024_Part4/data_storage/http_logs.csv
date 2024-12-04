@@ -1258,3 +1258,15 @@ event_id,ip,http_method,requested_url,http_version,response_status,timestamp
 1256,127.0.0.1,GET,http://localhost:8088/static/logo.png,HTTP/1.1,304,2024-12-04 18:57:05
 1257,127.0.0.1,GET,http://localhost:8088/static/styles/custom.css,HTTP/1.1,304,2024-12-04 18:57:05
 1258,127.0.0.1,GET,http://localhost:8088/static/styles/bootstrap.min.css,HTTP/1.1,304,2024-12-04 18:57:05
+1259,127.0.0.1,GET,http://localhost:8088/,HTTP/1.1,200,2024-12-04 19:49:13
+1260,127.0.0.1,GET,http://localhost:8088/static/styles/custom.css,HTTP/1.1,200,2024-12-04 19:49:13
+1261,127.0.0.1,GET,http://localhost:8088/static/logo.png,HTTP/1.1,200,2024-12-04 19:49:13
+1262,127.0.0.1,GET,http://localhost:8088/static/styles/bootstrap.min.css,HTTP/1.1,200,2024-12-04 19:49:13
+1263,127.0.0.1,GET,http://localhost:8088/dashboard,HTTP/1.1,200,2024-12-04 19:49:21
+1264,127.0.0.1,GET,http://localhost:8088/static/styles/custom.css,HTTP/1.1,304,2024-12-04 19:49:21
+1265,127.0.0.1,GET,http://localhost:8088/static/styles/bootstrap.min.css,HTTP/1.1,304,2024-12-04 19:49:21
+1266,127.0.0.1,GET,http://localhost:8088/static/logo.png,HTTP/1.1,304,2024-12-04 19:49:21
+1267,127.0.0.1,GET,http://localhost:8088/stats,HTTP/1.1,200,2024-12-04 19:49:42
+1268,127.0.0.1,GET,http://localhost:8088/static/styles/custom.css,HTTP/1.1,304,2024-12-04 19:49:42
+1269,127.0.0.1,GET,http://localhost:8088/static/styles/bootstrap.min.css,HTTP/1.1,304,2024-12-04 19:49:42
+1270,127.0.0.1,GET,http://localhost:8088/static/logo.png,HTTP/1.1,304,2024-12-04 19:49:42

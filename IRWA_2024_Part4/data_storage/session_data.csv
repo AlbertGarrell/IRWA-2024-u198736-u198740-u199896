@@ -44,3 +44,4 @@ event_id,session_id,IP,OS,Browser,Country,City,timestamp_init
 42,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:51:51
 43,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:51:58
 44,69c17539-b75f-41c8-a01d-4ca52470e87d,127.0.0.1,Mac OS,Chrome,Spain,Santa Maria de Palautordera,2024-12-04 18:52:28
+45,0482f0e5-c2a3-49e1-85d5-0ce6fb5c8582,127.0.0.1,Mac OS,Safari,Spain,Santa Maria de Palautordera,2024-12-04 19:49:13
